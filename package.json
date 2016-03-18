@@ -1,0 +1,25 @@
+{
+  "name": "authenticate-nodejs-prototype",
+  "version": "0.1.0",
+  "description": "Prototype authentication using passport",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
+  },
+  "author": "Robert Byrne",
+  "license": "ISC",
+  "dependencies": {
+    "express": "~3.4.4",
+    "winston": ">=2.2.0",
+    "passport": ">=0.3.2",
+    "passport-local": ">=1.0.0",
+    "mongodb": "~2.0",
+    "connect-flash": ">=0.1.1"
+  },
+  "private": true
+}
