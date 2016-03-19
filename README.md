@@ -18,3 +18,5 @@ Deployment
     npm start
 
 Accessible via `localhost:3000`
+
+![Screenshot](http://i.imgur.com/5qENBla.png)
