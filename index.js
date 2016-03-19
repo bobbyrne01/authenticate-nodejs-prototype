@@ -8,6 +8,7 @@ var express = require('express'),
 	ObjectId = require('mongodb').ObjectID,
 	assert = require('assert'),
 	flash = require('connect-flash'),
+	bcrypt = require('bcrypt-nodejs'),
 	ipaddress = '127.0.0.1',
   port = 3000,
 	mongoUrl = 'mongodb://' + ipaddress + ':27017/authenticate-nodejs-prototype';
@@ -26,8 +27,10 @@ var findUser = function (db, id, callback) {
 	cursor.each(function (err, doc) {
 		assert.equal(err, null);
 		if (doc !== null) {
-			if (doc.username === id.username && doc.password === id.password){
-				result = doc;
+			if (doc.username === id.username){ // if username matches
+				if (bcrypt.compareSync(id.password, doc.password)){ // compare password against hash in db TODO investigate async
+					result = doc;
+				}
 			}
 		} else {
 			callback(result);
@@ -60,17 +63,12 @@ passport.serializeUser(function(user, done) {
   return done(null, user);
 });
 passport.deserializeUser(function(id, done) {
-	MongoClient.connect(mongoUrl, function (err, db) { // connect to db
-		assert.equal(null, err);
-		findUser(db, id, function (result) { // find user in db
-			db.close(); // close db connection
-			return done(null, result);
-		});
-	});
+	return done(null, false);
 });
 
 app.configure(function() {
   app.use(express.static('public'));
+	app.use('/css', express.static(__dirname + '/css/'));
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.session({ secret: 'keyboard cat' }));
